@@ -36,6 +36,22 @@ func FullJitter(min uint, max uint) (f func(uint) uint) {
 }
 
 /*
+Pow2Exp is an exponential backoff function which returns (base * 2^x) where x is the failCount.
+*/
+func Pow2Exp(base uint) func(uint) uint {
+	return func(failCount uint) uint {
+		if failCount == 0 {
+			return 0
+		}
+		exp := backoff.Pow2(failCount)
+		if exp > math.MaxUint64/base {
+			return math.MaxUint64
+		}
+		return base * exp
+	}
+}
+
+/*
 Pow2 is a basic exponential backoff function which returns 2^x where x is the failCount.
 */
 func Pow2(failCount uint) uint {
