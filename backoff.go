@@ -43,7 +43,7 @@ func Pow2Exp(base uint) func(uint) uint {
 		if failCount == 0 {
 			return 0
 		}
-		exp := backoff.Pow2(failCount)
+		exp := Pow2(failCount)
 		if exp > math.MaxUint64/base {
 			return math.MaxUint64
 		}
